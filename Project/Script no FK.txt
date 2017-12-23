@@ -1,0 +1,98 @@
+
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
+
+-- -----------------------------------------------------
+-- Table `Student`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `Student` ;
+
+CREATE TABLE IF NOT EXISTS `Student` (
+  `StudentID` INT NOT NULL,
+  `FName` VARCHAR(45) NULL,
+  `LName` VARCHAR(45) NULL,
+  `Semail` VARCHAR(45) NULL,
+  PRIMARY KEY (`StudentID`),
+  UNIQUE INDEX `StudentID_UNIQUE` (`StudentID` ASC),
+  UNIQUE INDEX `Semail_UNIQUE` (`Semail` ASC))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `Professor`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `Professor` ;
+
+CREATE TABLE IF NOT EXISTS `Professor` (
+  `ProfessorID` INT NOT NULL,
+  `FName` VARCHAR(45) NULL,
+  `LName` VARCHAR(45) NULL,
+  `Pemail` VARCHAR(45) NULL,
+  UNIQUE INDEX `ProfessorID_UNIQUE` (`ProfessorID` ASC),
+  UNIQUE INDEX `Pemail_UNIQUE` (`Pemail` ASC),    
+  PRIMARY KEY (`ProfessorID`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `Course`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `Course` ;
+
+CREATE TABLE IF NOT EXISTS `Course` (
+  `CourseID` INT NOT NULL,
+  `StartDate` DATE NULL,
+  `Professor_ProfessorID` INT NOT NULL,
+  `Course_Name` VARCHAR(45) NULL,
+  UNIQUE INDEX `CourseID_UNIQUE` (`CourseID` ASC),
+  PRIMARY KEY (`CourseID`, `Professor_ProfessorID`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `Register_Student_For_Course`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `Register_Student_For_Course` ;
+
+CREATE TABLE IF NOT EXISTS `Register_Student_For_Course` (
+  `CourseID` INT NOT NULL,
+  `StudentID` INT NOT NULL,
+  PRIMARY KEY (`CourseID`, `StudentID`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `Meeting`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `Meeting` ;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`Meeting` (
+  `Meeting_room` INT NULL,
+  `Date` DATE NULL,
+  `Time` TIME(0) NULL,
+  `CourseID` INT NOT NULL,
+  `RegisteredStudentID` INT NOT NULL,
+  `MeetingID` INT NOT NULL,
+  PRIMARY KEY (`CourseID`, `RegisteredStudentID`, `MeetingID`),
+  UNIQUE INDEX `MeetingID_UNIQUE` (`MeetingID` ASC))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `Attendance`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `Attendance` ;
+
+CREATE TABLE IF NOT EXISTS `Attendance` (
+  `Student_Attendance` VARCHAR(3) NULL,
+  `Professir_Attendance` VARCHAR(3) NULL,
+  `MeetingID` INT NOT NULL,
+  PRIMARY KEY (`MeetingID`))
+ENGINE = InnoDB;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
